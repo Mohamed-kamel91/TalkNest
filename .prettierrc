@@ -1,0 +1,20 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 70,
+  "endOfLine": "lf",
+  "tailwindStylesheet": "./src/index.css",
+  "tailwindFunctions": ["tv"],
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": [".test."],
+      "options": {
+        "printWidth": 80
+      }
+    }
+  ]
+}
