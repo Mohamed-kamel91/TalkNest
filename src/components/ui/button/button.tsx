@@ -8,7 +8,7 @@ import {
   type ButtonVariantsProps,
 } from './button-variants';
 
-function Button({
+export function Button({
   className,
   variant,
   size,
@@ -28,5 +28,3 @@ function Button({
     />
   );
 }
-
-export { Button };
