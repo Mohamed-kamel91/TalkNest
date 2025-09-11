@@ -8,16 +8,18 @@ import {
   type ButtonVariantsProps,
 } from './button-variants';
 
+type ButtonProps = React.ComponentProps<'button'> &
+  ButtonVariantsProps & {
+    asChild?: boolean;
+  };
+
 export function Button({
   className,
   variant,
   size,
   asChild = false,
   ...props
-}: React.ComponentProps<'button'> &
-  ButtonVariantsProps & {
-    asChild?: boolean;
-  }) {
+}: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
 
   return (
