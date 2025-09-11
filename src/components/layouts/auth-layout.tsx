@@ -1,7 +1,9 @@
 import { cn } from '@/lib/utils';
 
 import { Head } from '../seo/head';
-import { Logo as AppLogo } from '../ui/Logo';
+import { Container } from '../ui/container';
+import { Logo as AppLogo } from '../ui/logo';
+import { Stack } from '../ui/stack';
 
 type AuthLayoutProps = {
   title: string;
@@ -23,15 +25,12 @@ export const AuthLayout = ({
           'min-h-svh w-full',
         )}
       >
-        <div
-          className={cn(
-            'flex flex-col items-center gap-4',
-            'mx-auto w-full max-w-120 p-6 md:p-10',
-          )}
-        >
-          <AppLogo />
-          <div className="w-full">{children}</div>
-        </div>
+        <Container className="w-full">
+          <Stack direction="col" align="center">
+            <AppLogo />
+            <div className="w-full">{children}</div>
+          </Stack>
+        </Container>
       </div>
     </>
   );
