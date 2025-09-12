@@ -7,13 +7,18 @@ import {
 } from 'react-hook-form';
 import { z, type ZodType } from 'zod';
 
+type UseZodFormOptions<TSchema extends ZodType<any, any, any>> = Omit<
+  UseFormProps<z.infer<TSchema>>,
+  'resolver'
+> & {
+  initialFocus?: FieldPath<z.infer<TSchema>>;
+};
+
 export const useZodForm = <TSchema extends ZodType<any, any, any>>(
   schema: TSchema,
-  options: Omit<UseFormProps<z.infer<TSchema>>, 'resolver'> & {
-    intialFocus?: FieldPath<z.infer<TSchema>>;
-  } = {},
+  options: UseZodFormOptions<TSchema> = {},
 ) => {
-  const { intialFocus, ...formOptions } = options;
+  const { initialFocus, ...formOptions } = options;
 
   const form = useForm({
     ...formOptions,
@@ -23,8 +28,8 @@ export const useZodForm = <TSchema extends ZodType<any, any, any>>(
   const { setFocus } = form;
 
   React.useEffect(() => {
-    if (intialFocus) setFocus(intialFocus);
-  }, [intialFocus, setFocus]);
+    if (initialFocus) setFocus(initialFocus);
+  }, [initialFocus, setFocus]);
 
-  return { ...form };
+  return form;
 };
