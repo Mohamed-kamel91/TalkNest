@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 type FieldErrorTextProps = React.ComponentProps<'div'> & {
   errorText?: string | undefined;

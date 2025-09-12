@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 import { FieldErrorText } from './field-error-text';
 import { Label } from './label';
