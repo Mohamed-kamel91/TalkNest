@@ -22,7 +22,6 @@ export const createPath = <TPath extends string>(path: TPath) => ({
   },
 });
 
-createPath('/products/:productId/users/:userId');
 export const createAuthPath = (path: string) => ({
   path,
   getHref: (redirectTo?: string | null | undefined) => {
