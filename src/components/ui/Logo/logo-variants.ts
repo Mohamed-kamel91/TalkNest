@@ -24,6 +24,11 @@ const logoVariants = tv({
         icon: 'size-8',
         text: 'text-lg',
       },
+      xl: {
+        iconContainer: 'size-14',
+        icon: 'size-10',
+        text: 'text-xl',
+      },
     },
     variant: {
       primary: {
