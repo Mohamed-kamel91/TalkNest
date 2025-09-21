@@ -1,22 +1,28 @@
 import Cookies from 'js-cookie';
 import { delay } from 'msw';
 
-import { db } from './db';
+import { db } from './db/db';
 
-export const encode = (obj: any) => {
+import type { User } from '@/types/api';
+
+type TokenPayload = Pick<User, 'id' | 'email' | 'role'>;
+
+export const encode = <P extends TokenPayload>(
+  payload: P,
+): string => {
   const btoa =
     typeof window === 'undefined'
       ? (str: string) => Buffer.from(str, 'binary').toString('base64')
       : window.btoa;
-  return btoa(JSON.stringify(obj));
+  return btoa(JSON.stringify(payload));
 };
 
-export const decode = (str: string) => {
+export const decode = <P extends TokenPayload>(token: string): P => {
   const atob =
     typeof window === 'undefined'
-      ? (str: string) => Buffer.from(str, 'base64').toString('binary')
+      ? (t: string) => Buffer.from(t, 'base64').toString('binary')
       : window.atob;
-  return JSON.parse(atob(str));
+  return JSON.parse(atob(token));
 };
 
 export const hash = (str: string) => {
@@ -66,31 +72,39 @@ export function authenticate({
   });
 
   if (user?.password === hash(password)) {
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.role as TokenPayload['role'],
+    };
+
     const sanitizedUser = sanitizeUser(user);
-    const encodedToken = encode(sanitizedUser);
+    const encodedToken = encode(tokenPayload);
+
     return {
       user: sanitizedUser,
       jwt: encodedToken,
     };
   }
 
-  const error = new Error('Invalid username or password');
-  throw error;
+  throw new Error('Invalid email or password. Please try again.');
 }
 
-export const AUTH_COOKIE = `bulletproof_react_app_token`;
+export const AUTH_COOKIE = 'talknest-token';
 
 export function requireAuth(cookies: Record<string, string>) {
   try {
     const encodedToken =
       cookies[AUTH_COOKIE] || Cookies.get(AUTH_COOKIE);
+
     if (!encodedToken) {
       return {
         error: 'Unauthorized',
         user: null,
       };
     }
-    const decodedToken = decode(encodedToken) as { id: string };
+
+    const decodedToken = decode(encodedToken);
 
     const user = db.user.findFirst({
       where: {
@@ -111,6 +125,7 @@ export function requireAuth(cookies: Record<string, string>) {
       user: sanitizeUser(user),
     };
   } catch (err: any) {
+    console.error('Auth error:', err);
     return {
       error: 'Unauthorized',
       user: null,
