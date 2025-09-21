@@ -1,9 +1,10 @@
 import { AppProvider } from './provider';
+import { AppRouter } from './router';
 
 export const App = () => {
   return (
     <AppProvider>
-      <h2>hello</h2>
+      <AppRouter />
     </AppProvider>
   );
 };
