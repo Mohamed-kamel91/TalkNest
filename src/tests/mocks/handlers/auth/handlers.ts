@@ -118,8 +118,6 @@ const logoutHandler = http.post(authPaths.logout, async () => {
 });
 
 const meHandler = http.get(authPaths.me, async ({ cookies }) => {
-  console.log('auth me route');
-
   await networkDelay();
 
   try {
