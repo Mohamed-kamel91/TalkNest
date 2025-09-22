@@ -6,7 +6,7 @@ const generateUser = () => ({
   lastName: faker.person.lastName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
-  role: 'ADMIN',
+  role: 'USER',
   bio: faker.lorem.paragraph(),
   createdAt: Date.now(),
 });
