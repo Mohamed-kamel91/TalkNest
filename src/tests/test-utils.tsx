@@ -24,9 +24,11 @@ export const createUser = async (userProperties?: any) => {
 };
 
 export const loginAsUser = async (user: any) => {
-  const authUser = await authenticate(user);
-  Cookies.set(AUTH_COOKIE, authUser.jwt);
-  return authUser;
+  const result = await authenticate(user);
+  if (result.success) {
+    Cookies.set(AUTH_COOKIE, result.data.jwt);
+    return result.data.user;
+  }
 };
 
 export const waitForLoadingToFinish = () =>
