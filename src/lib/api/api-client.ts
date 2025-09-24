@@ -1,10 +1,13 @@
 import Axios, {
+  AxiosError,
   type AxiosInstance,
   type CreateAxiosDefaults,
 } from 'axios';
 
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
+
+import type { ApiErrorResponse } from '@/types/api';
 
 const axiosConfig: CreateAxiosDefaults = {
   baseURL: env.API_URL,
@@ -20,8 +23,11 @@ export const api: AxiosInstance = Axios.create(axiosConfig);
 
 api.interceptors.response.use(
   (response) => response.data, // we only care about the data, we leave the state of api to reat query
-  (error) => {
-    if (error.response?.status === 401) {
+  (error: AxiosError<ApiErrorResponse>) => {
+    if (
+      error.response?.status === 401 &&
+      error.response?.data.code !== 'INVALID_CREDENTIALS'
+    ) {
       const searchParams = new URLSearchParams();
       const redirectTo =
         searchParams.get('redirectTo') || window.location.pathname;
