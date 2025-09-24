@@ -166,11 +166,12 @@ export function requireAuth(cookies: Record<string, string>) {
     return {
       user: sanitizeUser(user),
     };
-  } catch (err: any) {
-    console.error('Auth error:', err);
+  } catch (error: any) {
     return {
-      message: 'Authentication failed. Please login.',
+      message:
+        error?.message || 'Authentication failed. Please login.',
       code: 'AUTHENTICATION_ERROR',
+      statusCode: 401,
     };
   }
 }
