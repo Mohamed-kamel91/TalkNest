@@ -53,21 +53,33 @@ const registerHandler = http.post(
 
       const result = authenticate(credentials);
 
-      Cookies.set(AUTH_COOKIE, result.jwt, { path: '/' });
+      if (!result.success) {
+        return HttpResponse.json(
+          {
+            message:
+              result.error.message ||
+              'Login failed! Please try again.',
+            code: result.error.code || 'AUTH_ERROR',
+          },
+          { status: result.error.statusCode },
+        );
+      }
+
+      Cookies.set(AUTH_COOKIE, result.data.jwt, { path: '/' });
 
       return HttpResponse.json(
-        { data: result.user },
+        { data: result.data.user },
         {
           headers: {
             // with a real API, the token cookie should also be Secure and HttpOnly
-            'Set-Cookie': `${AUTH_COOKIE}=${result.jwt}; Path=/;`,
+            'Set-Cookie': `${AUTH_COOKIE}=${result.data.jwt}; Path=/;`,
           },
         },
       );
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },
-        { status: 500 },
+        { status: error?.statusCode || 500 },
       );
     }
   },
@@ -82,21 +94,33 @@ const loginHandler = http.post(
       const credentials = (await request.json()) as LoginRequestDTO;
       const result = authenticate(credentials);
 
-      Cookies.set(AUTH_COOKIE, result.jwt, { path: '/' });
+      if (!result.success) {
+        return HttpResponse.json(
+          {
+            message:
+              result.error.message ||
+              'Login failed! Please try again.',
+            code: result.error.code || 'AUTH_ERROR',
+          },
+          { status: result.error.statusCode },
+        );
+      }
+
+      Cookies.set(AUTH_COOKIE, result.data.jwt, { path: '/' });
 
       return HttpResponse.json(
-        { data: result.user },
+        { data: result.data.user },
         {
           headers: {
             // with a real API, the token cookie should also be Secure and HttpOnly
-            'Set-Cookie': `${AUTH_COOKIE}=${result.jwt}; Path=/;`,
+            'Set-Cookie': `${AUTH_COOKIE}=${result.data.jwt}; Path=/;`,
           },
         },
       );
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },
-        { status: 500 },
+        { status: error?.statusCode || 500 },
       );
     }
   },
@@ -122,11 +146,11 @@ const meHandler = http.get(authPaths.me, async ({ cookies }) => {
 
   try {
     const { user } = requireAuth(cookies);
-    return HttpResponse.json({ data: user });
+    return HttpResponse.json({ data: user || null });
   } catch (error: any) {
     return HttpResponse.json(
       { message: error?.message || 'Server Error' },
-      { status: 500 },
+      { status: error?.statusCode || 500 },
     );
   }
 });
