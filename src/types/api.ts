@@ -26,5 +26,4 @@ export type User = Entity<{
   email: string;
   role: 'ADMIN' | 'USER';
   bio: string;
-  avatarUrl?: string;
 }>;
