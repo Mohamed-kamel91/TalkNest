@@ -51,7 +51,11 @@ export const Field = ({
           .join(' '),
       })}
 
-      <FieldErrorText id={errorId} errorText={error?.message} />
+      <FieldErrorText
+        id={errorId}
+        data-testid={`${inputId}-field-error`}
+        errorText={error?.message}
+      />
     </Stack>
   );
 };
