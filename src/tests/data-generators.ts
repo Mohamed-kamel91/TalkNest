@@ -7,7 +7,7 @@ const generateUser = () => ({
   firstName: faker.person.firstName(),
   lastName: faker.person.lastName(),
   email: faker.internet.email(),
-  password: faker.internet.password(),
+  password: 'TestPassword123!',
   role: 'USER' as User['role'],
   bio: faker.lorem.paragraph(),
   createdAt: Date.now(),
@@ -17,6 +17,6 @@ export const createUser = <
   T extends Partial<ReturnType<typeof generateUser>>,
 >(
   overrides?: T,
-): User => {
+): ReturnType<typeof generateUser> => {
   return { ...generateUser(), ...overrides };
 };
