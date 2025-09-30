@@ -1,9 +1,10 @@
 import z from 'zod';
 
 const emailSchema = z
-  .email('Please enter a valid email')
+  .string()
   .trim()
-  .min(1, 'Email is required');
+  .min(1, 'Email is required')
+  .email('Please enter a valid email');
 
 const passwordSchema = z
   .string()
