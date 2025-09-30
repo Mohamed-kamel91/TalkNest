@@ -16,7 +16,9 @@ export const Login = () => {
     >
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-xl">
+            <h1>Welcome back</h1>
+          </CardTitle>
           <CardDescription>
             Login to your account to continue.
           </CardDescription>
