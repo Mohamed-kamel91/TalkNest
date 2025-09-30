@@ -16,7 +16,9 @@ export const Register = () => {
     >
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Create an account</CardTitle>
+          <CardTitle className="text-xl">
+            <h1>Create an account</h1>
+          </CardTitle>
           <CardDescription>
             Join TalkNest and start sharing your ideas.
           </CardDescription>
