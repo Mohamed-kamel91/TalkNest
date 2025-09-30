@@ -31,7 +31,10 @@ export function RegisterForm({
         {...props}
       >
         {registerUser.error && (
-          <ErrorAlert title={getErrorMessage(registerUser.error)} />
+          <ErrorAlert
+            title={getErrorMessage(registerUser.error)}
+            testId="auth-form-error"
+          />
         )}
 
         <Stack direction="col" gap={6}>
