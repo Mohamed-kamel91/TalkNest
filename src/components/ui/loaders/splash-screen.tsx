@@ -14,7 +14,10 @@ export const SplashScreen = () => {
         'h-screen w-screen p-6 md:p-10',
       )}
     >
-      <div className={styles.iconContainer()}>
+      <div
+        className={styles.iconContainer()}
+        aria-label="App loading"
+      >
         <Feather className={styles.icon({ size: 'lg' })} />
       </div>
     </div>
