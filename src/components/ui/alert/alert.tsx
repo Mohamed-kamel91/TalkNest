@@ -4,12 +4,19 @@ import { cn } from '@/lib/utils/cn';
 
 import { alertVariants, type AlertVariants } from './alert-variants';
 
-type AlertProps = React.ComponentProps<'div'> & AlertVariants;
+type AlertProps = React.ComponentProps<'div'> &
+  AlertVariants & { testId?: string };
 
-const Alert = ({ className, variant, ...props }: AlertProps) => {
+const Alert = ({
+  className,
+  variant,
+  testId,
+  ...props
+}: AlertProps) => {
   return (
     <div
       data-slot="alert"
+      data-testid={testId}
       role="alert"
       className={cn(alertVariants({ variant, className }))}
       {...props}
