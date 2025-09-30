@@ -7,18 +7,29 @@ import {
   type SpinnerVariantsProps,
 } from './spinner-variants';
 
-type SpinnerProps = SpinnerVariantsProps & {
-  className?: string;
-};
+type SpinnerProps = React.ComponentProps<'div'> &
+  SpinnerVariantsProps & {
+    className?: string;
+  };
 
 export const Spinner = ({
   className,
   size = 'md',
   color = 'default',
+  role = 'status',
+  'aria-label': ariaLabel = 'Loading',
+  ...props
 }: SpinnerProps) => {
+  const styles = spinnerVariants({ size, color });
+
   return (
-    <Loader2Icon
-      className={cn(spinnerVariants({ size, color, className }))}
-    />
+    <div
+      className={cn(styles.container({ className }))}
+      role={role}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      <Loader2Icon className={styles.icon()} />
+    </div>
   );
 };
