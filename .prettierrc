@@ -11,9 +11,9 @@
   "plugins": ["prettier-plugin-tailwindcss"],
   "overrides": [
     {
-      "files": [".test."],
+     "files": ["**/*.test.{js,jsx,ts,tsx}"],
       "options": {
-        "printWidth": 80
+        "printWidth": 100
       }
     }
   ]

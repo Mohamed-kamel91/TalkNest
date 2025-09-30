@@ -1,22 +1,28 @@
 import Cookies from 'js-cookie';
 import { delay } from 'msw';
 
-import { db } from './db';
+import { db } from './db/db';
 
-export const encode = (obj: any) => {
+import type { User } from '@/types/api';
+
+type TokenPayload = Pick<User, 'id' | 'email' | 'role'>;
+
+export const encode = <P extends TokenPayload>(
+  payload: P,
+): string => {
   const btoa =
     typeof window === 'undefined'
       ? (str: string) => Buffer.from(str, 'binary').toString('base64')
       : window.btoa;
-  return btoa(JSON.stringify(obj));
+  return btoa(JSON.stringify(payload));
 };
 
-export const decode = (str: string) => {
+export const decode = <P extends TokenPayload>(token: string): P => {
   const atob =
     typeof window === 'undefined'
-      ? (str: string) => Buffer.from(str, 'base64').toString('binary')
+      ? (t: string) => Buffer.from(t, 'base64').toString('binary')
       : window.atob;
-  return JSON.parse(atob(str));
+  return JSON.parse(atob(token));
 };
 
 export const hash = (str: string) => {
@@ -50,47 +56,96 @@ const omit = <T extends object>(obj: T, keys: string[]): T => {
 export const sanitizeUser = <O extends object>(user: O) =>
   omit<O>(user, ['password', 'iat']);
 
-export function authenticate({
-  email,
-  password,
-}: {
+type AuthResult =
+  | {
+      success: true;
+      data: {
+        user: User;
+        jwt: string;
+      };
+    }
+  | {
+      success: false;
+      error: {
+        message: string;
+        code?: string;
+        statusCode?: number;
+      };
+    };
+
+export function authenticate(credentials: {
   email: string;
   password: string;
-}) {
+}): AuthResult {
   const user = db.user.findFirst({
     where: {
       email: {
-        equals: email,
+        equals: credentials.email,
       },
     },
   });
 
-  if (user?.password === hash(password)) {
-    const sanitizedUser = sanitizeUser(user);
-    const encodedToken = encode(sanitizedUser);
+  const isCorrectPassword =
+    user?.password === hash(credentials.password);
+
+  if (!user || !isCorrectPassword) {
     return {
-      user: sanitizedUser,
-      jwt: encodedToken,
+      success: false,
+      error: {
+        message: 'Invalid email or password. Please try again.',
+        code: 'INVALID_CREDENTIALS',
+        statusCode: 401,
+      },
     };
   }
 
-  const error = new Error('Invalid username or password');
-  throw error;
+  const tokenPayload = {
+    id: user.id,
+    email: user.email,
+    role: user.role as TokenPayload['role'],
+  };
+
+  const sanitizedUser = sanitizeUser(user) as User;
+  const encodedToken = encode(tokenPayload);
+
+  return {
+    success: true,
+    data: {
+      user: sanitizedUser,
+      jwt: encodedToken,
+    },
+  };
 }
 
-export const AUTH_COOKIE = `bulletproof_react_app_token`;
+export const AUTH_COOKIE = 'talknest-token';
 
 export function requireAuth(cookies: Record<string, string>) {
   try {
-    const encodedToken =
-      cookies[AUTH_COOKIE] || Cookies.get(AUTH_COOKIE);
-    if (!encodedToken) {
+    const token = cookies[AUTH_COOKIE] || Cookies.get(AUTH_COOKIE);
+
+    if (!token) {
       return {
-        error: 'Unauthorized',
-        user: null,
+        message: 'Authentication required. Please login.',
+        code: 'NO_TOKEN',
+        statusCode: 401,
       };
     }
-    const decodedToken = decode(encodedToken) as { id: string };
+
+    // In real api server, token expiration error be checked
+    // {
+    //   "message": "Your session has expired. Please log in again."
+    //   "code": "TOKEN_EXPIRED",
+    //   "statusCode": 401,
+    // }
+
+    const decodedToken = decode(token);
+
+    //  In real api server, token validity error should be handled
+    // {
+    //   message: 'Invalid session. Please log in again.',
+    //   code: 'INVALID_TOKEN',
+    //   "statusCode": 401,
+    // };
 
     const user = db.user.findFirst({
       where: {
@@ -102,18 +157,21 @@ export function requireAuth(cookies: Record<string, string>) {
 
     if (!user) {
       return {
-        error: 'Unauthorized',
-        user: null,
+        message: "This user doesn't exist. Please login again.",
+        code: 'USER_NOT_FOUND',
+        statusCode: 404,
       };
     }
 
     return {
       user: sanitizeUser(user),
     };
-  } catch (err: any) {
+  } catch (error: any) {
     return {
-      error: 'Unauthorized',
-      user: null,
+      message:
+        error?.message || 'Authentication failed. Please login.',
+      code: 'AUTHENTICATION_ERROR',
+      statusCode: 401,
     };
   }
 }

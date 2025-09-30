@@ -7,7 +7,7 @@ import {
 export const queryConfig: DefaultOptions = {
   queries: {
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 6, // 1 minute
+    staleTime: 1000 * 60, // 1 minute
     retry: false,
   },
 };
