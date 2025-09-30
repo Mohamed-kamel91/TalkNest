@@ -7,7 +7,7 @@ import { useZodForm } from '@/lib/hooks/use-zod-form';
 import { defaultLoginValues } from '../constants';
 import { loginFormSchema, type LoginInput } from '../types';
 
-export const UseLoginForm = () => {
+export const useLoginForm = () => {
   const login = useLogin();
 
   const [searchParams] = useSearchParams();
