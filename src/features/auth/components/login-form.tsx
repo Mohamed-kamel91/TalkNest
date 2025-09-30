@@ -10,7 +10,7 @@ import { paths } from '@/config/paths';
 import { cn } from '@/lib/utils/cn';
 import { getErrorMessage } from '@/lib/utils/error-utils';
 
-import { UseLoginForm } from '../hooks/use-login-form';
+import { useLoginForm } from '../hooks/use-login-form';
 
 export function LoginForm({
   className,
@@ -23,7 +23,7 @@ export function LoginForm({
     register,
     handleSubmit,
     onSubmit,
-  } = UseLoginForm();
+  } = useLoginForm();
 
   return (
     <>
@@ -33,7 +33,10 @@ export function LoginForm({
         {...props}
       >
         {login.error && (
-          <ErrorAlert title={getErrorMessage(login.error)} />
+          <ErrorAlert
+            title={getErrorMessage(login.error)}
+            testId="auth-form-error"
+          />
         )}
 
         <Stack direction="col" gap={6}>
