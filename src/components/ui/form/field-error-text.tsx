@@ -21,7 +21,7 @@ export const FieldErrorText = ({
       role="alert"
       {...props}
     >
-      <span>{errorText}</span>
+      {errorText}
     </div>
   );
 };
