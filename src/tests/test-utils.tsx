@@ -18,7 +18,7 @@ import { db } from './mocks/db';
 import { AUTH_COOKIE, authenticate, hash } from './mocks/utils';
 
 export const createUser = async (userProperties?: any) => {
-  const user = generateUser(userProperties) as any;
+  const user = generateUser(userProperties);
   await db.user.create({ ...user, password: hash(user.password) });
   return user;
 };
@@ -31,14 +31,16 @@ export const loginAsUser = async (user: any) => {
   }
 };
 
-export const waitForLoadingToFinish = () =>
-  waitForElementToBeRemoved(
+export const waitForLoadingToFinish = () => {
+  return waitForElementToBeRemoved(
     () => [
-      ...screen.queryAllByTestId(/loading/i),
+      ...screen.queryAllByLabelText(/loading/i),
       ...screen.queryAllByText(/loading/i),
+      ...screen.queryAllByTestId(/loading/i),
     ],
     { timeout: 4000 },
   );
+};
 
 const initializeUser = async (user: any) => {
   if (typeof user === 'undefined') {
