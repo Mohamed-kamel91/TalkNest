@@ -1,4 +1,6 @@
-const BASE_PATH = '/api/auth';
+import { env } from '@/config/env';
+
+const BASE_PATH = `${env.API_URL}/auth`;
 
 export const authPaths = {
   login: `${BASE_PATH}/login`,
