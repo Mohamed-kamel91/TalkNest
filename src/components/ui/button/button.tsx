@@ -8,11 +8,13 @@ import {
   type ButtonVariantsProps,
 } from './button-variants';
 import { Spinner } from '../loaders';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../tooltip';
 
-type ButtonProps = React.ComponentProps<'button'> &
+export type ButtonProps = React.ComponentProps<'button'> &
   ButtonVariantsProps & {
     asChild?: boolean;
     isLoading?: boolean;
+    tooltip?: string | React.ComponentProps<typeof TooltipContent>;
     icon?: React.JSX.Element;
   };
 
@@ -20,7 +22,9 @@ export function Button({
   className,
   variant,
   size,
+  iconOnly,
   icon,
+  tooltip,
   isLoading = false,
   asChild = false,
   children,
@@ -28,9 +32,16 @@ export function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
 
-  return (
+  const button = (
     <Comp
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(
+        buttonVariants({
+          variant,
+          size,
+          iconOnly,
+          className,
+        }),
+      )}
       data-slot="button"
       disabled={isLoading}
       {...props}
@@ -39,5 +50,22 @@ export function Button({
       {!isLoading && icon && <span>{icon}</span>}
       {children}
     </Comp>
+  );
+
+  if (!tooltip) {
+    return button;
+  }
+
+  if (typeof tooltip === 'string') {
+    tooltip = {
+      children: tooltip,
+    };
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{button}</TooltipTrigger>
+      <TooltipContent side="bottom" align="center" {...tooltip} />
+    </Tooltip>
   );
 }

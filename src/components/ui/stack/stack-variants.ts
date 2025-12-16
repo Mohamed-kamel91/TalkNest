@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from 'tailwind-variants';
 
 export const stackVariants = tv({
-  base: 'flex w-full',
+  base: 'flex',
   variants: {
     direction: {
       row: 'flex-row',
@@ -46,7 +46,7 @@ export const stackVariants = tv({
     justify: 'start',
     align: 'stretch',
     wrap: 'noWrap',
-    gap: 4,
+    gap: 2,
   },
 });
 
