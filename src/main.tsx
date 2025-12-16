@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/order
 import { scan } from 'react-scan';
-import React from 'react';
+import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from './app';
