@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useLogout, useUser } from '@/lib/api/auth';
 import { cn } from '@/lib/utils/cn';
-import { getFullName } from '@/lib/utils/user-utils';
+import { getFullName } from '@/lib/utils/name-utils';
 
 import type { ButtonProps } from '@/components/ui/button/button';
 
