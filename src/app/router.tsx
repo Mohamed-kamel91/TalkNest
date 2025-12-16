@@ -2,8 +2,10 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
 import { ErrorFallback } from '@/components/errors';
+import { AppLayout } from '@/components/layouts';
+import { paths } from '@/config/paths';
 
-import { ProtectedRoute, RestrictedRoute } from './routes/guards';
+import { RestrictedRoute } from './routes/guards';
 
 const router = createBrowserRouter([
   {
@@ -11,14 +13,14 @@ const router = createBrowserRouter([
     ErrorBoundary: ErrorFallback,
     children: [
       {
-        path: '/login',
+        path: paths.auth.login.path,
         lazy: () =>
           import('./routes/auth/login').then(({ Login }) => ({
             Component: Login,
           })),
       },
       {
-        path: '/register',
+        path: paths.auth.register.path,
         lazy: () =>
           import('./routes/auth/register').then(({ Register }) => ({
             Component: Register,
@@ -27,8 +29,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/',
-    Component: ProtectedRoute,
+    path: paths.app.root.path,
+    Component: AppLayout,
     children: [
       {
         index: true,
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
           import('./routes/app/posts').then(({ Posts }) => ({
             Component: Posts,
           })),
+      },
+      {
+        path: 'popular',
+        Component: () => <h1>Popular</h1>,
+      },
+      {
+        path: 'explore',
+        Component: () => <h1>Explore</h1>,
       },
     ],
   },

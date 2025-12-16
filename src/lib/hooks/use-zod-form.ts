@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import * as React from 'react';
 import {
   useForm,
   type FieldPath,

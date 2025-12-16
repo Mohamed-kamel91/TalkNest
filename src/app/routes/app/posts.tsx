@@ -1,12 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { useLogout } from '@/lib/api/auth';
+import { ContentLayout } from '@/components/layouts';
 
 export const Posts = () => {
-  const logout = useLogout();
   return (
-    <div className="w-scree flex h-screen justify-between px-20 py-10">
-      <div>posts</div>
-      <Button onClick={() => logout.mutate({})}>Logout</Button>
-    </div>
+    <ContentLayout title="Home" className="mx-auto">
+      <div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Tenetur consectetur quidem recusandae culpa ex exercitationem
+        necessitatibus labore velit, maxime enim aliquam nobis
+        quibusdam tempore sapiente fugit illum rerum repellendus
+        ullam.
+      </div>
+    </ContentLayout>
   );
 };
