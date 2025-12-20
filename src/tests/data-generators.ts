@@ -20,3 +20,19 @@ export const createUser = <
 ): ReturnType<typeof generateUser> => {
   return { ...generateUser(), ...overrides };
 };
+
+const generatePost = () => ({
+  id: faker.string.uuid(),
+  title: faker.person.firstName(),
+  content: faker.person.lastName(),
+  createdAt: Date.now(),
+  updatedAt: Date.now(),
+});
+
+export const createPost = <
+  T extends Partial<ReturnType<typeof generatePost>>,
+>(
+  overrides?: T | { authorId: string },
+): ReturnType<typeof generatePost> => {
+  return { ...generatePost(), ...overrides };
+};
