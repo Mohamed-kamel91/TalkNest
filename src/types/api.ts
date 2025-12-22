@@ -27,3 +27,10 @@ export type User = Entity<{
   role: 'ADMIN' | 'USER';
   bio: string;
 }>;
+
+export type Post = Entity<{
+  title: string;
+  content: string;
+  author: User;
+  updatedAt: string;
+}>;
