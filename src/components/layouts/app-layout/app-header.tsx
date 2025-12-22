@@ -75,16 +75,21 @@ export function AppHeader() {
               )
             )}
 
-            <Button
-              iconOnly
-              variant="ghost"
-              tooltip="Notifications"
-              icon={<BellIcon />}
-              aria-label="Notifications"
-            />
+            {user?.data ? (
+              <>
+                <Button
+                  iconOnly
+                  variant="ghost"
+                  tooltip="Notifications"
+                  icon={<BellIcon />}
+                  aria-label="Notifications"
+                />
+                <ProfileMenu />
+              </>
+            ) : (
+              <LoginButton />
+            )}
           </Stack>
-
-          {user?.data ? <ProfileMenu /> : <LoginButton />}
         </Stack>
       </Stack>
     </header>
