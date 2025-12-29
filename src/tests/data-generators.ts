@@ -11,6 +11,8 @@ const generateUser = () => ({
   role: 'USER' as User['role'],
   bio: faker.lorem.paragraph(),
   createdAt: Date.now(),
+  avatarUrl:
+    'https://api.dicebear.com/9.x/micah/svg?seed=Aidan&radius=50&mouth=laughing,smile',
 });
 
 export const createUser = <
@@ -23,8 +25,8 @@ export const createUser = <
 
 const generatePost = () => ({
   id: faker.string.uuid(),
-  title: faker.person.firstName(),
-  content: faker.person.lastName(),
+  title: faker.lorem.sentence(),
+  content: faker.lorem.paragraph(),
   createdAt: Date.now(),
   updatedAt: Date.now(),
 });
