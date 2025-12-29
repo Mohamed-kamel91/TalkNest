@@ -1,7 +1,7 @@
 import { type LucideIcon } from 'lucide-react';
 import { useLocation } from 'react-router';
 
-import { LinkButton } from '@/components/ui/button';
+import { NavLinkButton } from '@/components/ui/button';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -14,7 +14,6 @@ type navItem = {
   title: string;
   to: string;
   icon: LucideIcon;
-  isActive?: boolean;
 };
 
 type NavMainProps = {
@@ -28,20 +27,22 @@ export function NavMain({ items }: NavMainProps) {
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
-                <LinkButton
-                  to={item.to}
-                  variant="unstyled"
-                  icon={<item.icon />}
-                  data-active={location.pathname === item.to}
-                >
-                  {item.title}
-                </LinkButton>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <NavLinkButton
+                    to={item.to}
+                    variant="ghost"
+                    isActive={location.pathname === item.to}
+                    icon={item.icon}
+                  >
+                    {item.title}
+                  </NavLinkButton>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
