@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { HttpResponse, http } from 'msw';
 
+import { createUser } from '@/tests/data-generators';
+
 import { authPaths } from './constants';
 import { db, persistDb } from '../../db';
 import {
@@ -41,6 +43,7 @@ const registerHandler = http.post(
         ...registerPayload,
         role: 'USER',
         password: hash(registerPayload.password),
+        avatarUrl: createUser().avatarUrl,
       });
 
       // Sync updated in-memory msw db with local storage / db file
