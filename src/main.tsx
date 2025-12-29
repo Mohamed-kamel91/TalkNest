@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './app';
 import { enableMocking } from './tests/mocks';
 
-import './index.css';
+import './styles/index.css';
 
 scan({
   enabled: true,
