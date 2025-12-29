@@ -1,7 +1,7 @@
 import { env } from '@/config/env';
 
-const BASE_PATH = `${env.API_URL}/comments`;
+const BASE_PATH = `${env.API_URL}/posts`;
 
 export const postsPaths = {
-  posts: `${BASE_PATH}/posts`,
+  posts: `${BASE_PATH}`,
 };
