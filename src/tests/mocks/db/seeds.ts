@@ -69,5 +69,5 @@ export const seedPosts = seedModel('post', (count, model) => {
 
 export const seedDb = async () => {
   await seedUsers(10);
-  await seedPosts(30);
+  await seedPosts(100);
 };
