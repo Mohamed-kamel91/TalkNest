@@ -14,7 +14,7 @@ const buttonVariants = tv({
 
     '[&_svg]:pointer-events-none [&_svg]:shrink-0',
     "[&_svg:not([class*='size-'])]:size-5",
-    '[&_svg]:stroke-[1.8]',
+    '[&_svg]:stroke-[1.5]',
   ),
   variants: {
     variant: {
