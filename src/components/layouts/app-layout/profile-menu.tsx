@@ -27,20 +27,28 @@ import { getFullName } from '@/lib/utils/name-utils';
 
 import type { ButtonProps } from '@/components/ui/button/button';
 
+type ProfileMenuHeaderProps = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatarUrl: string;
+};
+
 const ProfileMenuHeader = ({
   firstName,
   lastName,
   email,
-}: {
-  firstName: string;
-  lastName: string;
-  email: string;
-}) => {
+  avatarUrl,
+}: ProfileMenuHeaderProps) => {
   const fullName = getFullName(firstName, lastName);
 
   return (
     <div className="flex items-center gap-3 px-3 py-2">
-      <UserAvatar firstName={firstName} lastName={lastName} />
+      <UserAvatar
+        firstName={firstName}
+        lastName={lastName}
+        imageUrl={avatarUrl}
+      />
       <div
         className={cn(
           'grid flex-1',
@@ -48,7 +56,7 @@ const ProfileMenuHeader = ({
         )}
       >
         <span className="truncate font-medium">{fullName}</span>
-        <span className="truncate text-xs text-muted-foreground">
+        <span className="text-muted-foreground truncate text-xs">
           {email}
         </span>
       </div>
@@ -82,14 +90,21 @@ export const ProfileMenu = () => {
 
   if (!user?.data) return null;
 
-  const { firstName, lastName, email } = user.data;
+  const { firstName, lastName, email, avatarUrl } = user.data;
 
   return (
     <DropdownMenu>
       <Tooltip>
-        <DropdownMenuTrigger className={cn('rounded-full')} asChild>
+        <DropdownMenuTrigger
+          className={cn('bg-muted rounded-full p-1')}
+          asChild
+        >
           <TooltipTrigger>
-            <UserAvatar firstName={firstName} lastName={lastName} />
+            <UserAvatar
+              firstName={firstName}
+              lastName={lastName}
+              imageUrl={avatarUrl}
+            />
           </TooltipTrigger>
         </DropdownMenuTrigger>
         <TooltipContent collisionPadding={14}>
@@ -106,6 +121,7 @@ export const ProfileMenu = () => {
             firstName={firstName}
             lastName={lastName}
             email={email}
+            avatarUrl={avatarUrl}
           />
         </DropdownMenuGroup>
 
