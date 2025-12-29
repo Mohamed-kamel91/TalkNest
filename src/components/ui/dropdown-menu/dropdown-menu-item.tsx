@@ -18,7 +18,7 @@ export const DropdownMenuItem = ({
       className={cn(
         'relative flex items-center justify-start gap-3',
         'h-10 w-full px-3 py-1.5',
-        'cursor-pointer rounded-md text-sm font-normal outline-hidden select-none',
+        'outline-hidden cursor-pointer select-none rounded-md text-sm font-normal',
         'transition-none',
         'focus:bg-accent focus:text-accent-foreground focus-visible:ring-0',
 
@@ -33,7 +33,7 @@ export const DropdownMenuItem = ({
         '[&_svg]:pointer-events-none [&_svg]:shrink-0',
         "[&_svg:not([class*='size-'])]:size-5",
         "[&_svg:not([class*='text-'])]:text-current",
-        "[&_svg:not([class*='stroke-'])]:stroke-[1.8]",
+        "[&_svg:not([class*='stroke-'])]:stroke-[1.5]",
         className,
       )}
       {...props}
