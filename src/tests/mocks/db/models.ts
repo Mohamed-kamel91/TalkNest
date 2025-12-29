@@ -11,6 +11,7 @@ const user = {
   password: String,
   role: String,
   bio: String,
+  avatarUrl: String,
   createdAt: Date.now,
 };
 
