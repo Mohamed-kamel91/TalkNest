@@ -64,7 +64,7 @@ export const NavLinkButton = ({
 
     const IconComponent = icon;
     const activeStyle =
-      activeVariant === 'fill' ? '!fill-current' : '!stroke-[2.5]';
+      activeVariant === 'fill' ? '!fill-current' : '!stroke-2';
     return <IconComponent className={cn(isActive && activeStyle)} />;
   };
 
