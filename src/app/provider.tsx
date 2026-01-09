@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { ErrorFallback } from '@/components/errors';
+import { RootErrorFallback } from '@/components/errors';
 import { PageLoader, SplashScreen } from '@/components/ui/loaders';
 import { AuthLoader } from '@/lib/api/auth';
 import { queryClient } from '@/lib/api/query-client';
@@ -16,7 +16,7 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <React.Suspense fallback={<PageLoader />}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             {import.meta.env.DEV && <ReactQueryDevtools />}

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils/cn';
 
 const buttonVariants = tv({
   base: cn(
-    'relative inline-flex shrink-0 items-center justify-center',
+    'group/button relative inline-flex shrink-0 items-center justify-center',
     'cursor-pointer whitespace-nowrap text-sm font-medium outline-none',
     'transition-[width,height,padding,background-color]',
 
@@ -22,6 +22,8 @@ const buttonVariants = tv({
         'bg-primary text-primary-foreground hover:bg-primary/90',
       secondary:
         'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+      elevated:
+        'text-elevated-foreground bg-elevated hover:bg-accent-elevated',
       outline:
         'bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 border',
       destructive:
@@ -32,7 +34,7 @@ const buttonVariants = tv({
       unstyled: 'text-primary',
     },
     size: {
-      sm: 'h-8 gap-1.5 px-3 has-[svg]:px-2.5',
+      sm: 'h-8 gap-1.5 px-3',
       md: 'h-10 gap-2 px-4 has-[svg]:px-3',
       lg: 'h-11 gap-3 px-6 has-[svg]:px-4',
     },
@@ -44,13 +46,21 @@ const buttonVariants = tv({
     iconOnly: { true: 'px-0! aspect-square rounded-full' },
   },
   compoundVariants: [
-    { iconOnly: true, size: 'sm', class: '[&_svg]:size-4! size-8' },
+    {
+      iconOnly: true,
+      size: 'sm',
+      class: '[&_svg]:size-4! size-8',
+    },
     {
       iconOnly: true,
       size: 'md',
       class: '[&_svg]:size-5! size-10',
     },
-    { iconOnly: true, size: 'lg', class: '[&_svg]:size-6! size-12' },
+    {
+      iconOnly: true,
+      size: 'lg',
+      class: '[&_svg]:size-6! size-12',
+    },
   ],
 
   defaultVariants: {

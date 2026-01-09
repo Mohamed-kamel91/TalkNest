@@ -27,12 +27,15 @@ export type User = Entity<{
   email: string;
   role: 'ADMIN' | 'USER';
   bio: string;
+  slug: string;
   avatarUrl: string;
 }>;
 
 export type Post = Entity<{
+  author: User | null;
   title: string;
   content: string;
-  author: User | null;
+  slug: string;
+  publicId: string;
   updatedAt: number;
 }>;

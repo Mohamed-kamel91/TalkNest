@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const containerVariants = tv({
-  base: 'px-6 md:px-10',
+  base: 'px-5 sm:px-6',
   variants: {
     size: {
       '3xs': 'max-w-3xs',

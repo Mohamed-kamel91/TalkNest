@@ -4,6 +4,7 @@ import { HttpResponse, http } from 'msw';
 import { createUser } from '@/tests/data-generators';
 
 import { authPaths } from './constants';
+import { generateUniqueUserSlug } from './utils';
 import { db, persistDb } from '../../db';
 import {
   authenticate,
@@ -39,8 +40,14 @@ const registerHandler = http.post(
         );
       }
 
+      const slug = generateUniqueUserSlug(
+        registerPayload.firstName,
+        registerPayload.lastName,
+      );
+
       db.user.create({
         ...registerPayload,
+        slug,
         role: 'USER',
         password: hash(registerPayload.password),
         avatarUrl: createUser().avatarUrl,

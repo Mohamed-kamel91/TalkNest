@@ -12,6 +12,7 @@ const user = {
   role: String,
   bio: String,
   avatarUrl: String,
+  slug: String,
   createdAt: Date.now,
 };
 
@@ -20,6 +21,8 @@ const post = {
   authorId: String,
   title: String,
   content: String,
+  slug: String,
+  publicId: String,
   updatedAt: Date.now,
   createdAt: Date.now,
 };

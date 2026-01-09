@@ -8,13 +8,13 @@ interface UserAvatarProps
   extends React.ComponentProps<typeof Avatar> {
   firstName?: string;
   lastName?: string;
-  imageUrl?: string;
+  avatarUrl?: string;
 }
 
 export const UserAvatar = ({
   firstName = '',
   lastName = '',
-  imageUrl,
+  avatarUrl,
   className,
   ...props
 }: UserAvatarProps) => {
@@ -23,7 +23,7 @@ export const UserAvatar = ({
 
   // Prefetch img
   useEffect(() => {
-    if (!imageUrl) return;
+    if (!avatarUrl) return;
 
     // reset states when imageUrl changes
     setIsLoaded(false);
@@ -33,15 +33,14 @@ export const UserAvatar = ({
 
     img.onload = () => setIsLoaded(true);
     img.onerror = () => setIsError(true);
-    img.src = imageUrl;
-  }, [imageUrl]);
+    img.src = avatarUrl;
+  }, [avatarUrl]);
 
   return (
     <Avatar className={className} {...props}>
       {isLoaded && (
         <AvatarImage
-          className="animate-in fade-in duration-150"
-          src={imageUrl}
+          src={avatarUrl}
           alt={`${firstName} ${lastName} avatar`}
         />
       )}

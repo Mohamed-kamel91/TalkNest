@@ -23,6 +23,7 @@ export function Button({
   variant,
   size,
   iconOnly,
+  radius,
   icon,
   tooltip,
   isLoading = false,
@@ -38,6 +39,7 @@ export function Button({
         buttonVariants({
           variant,
           size,
+          radius,
           iconOnly,
           className,
         }),

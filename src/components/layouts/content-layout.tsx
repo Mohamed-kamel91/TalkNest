@@ -25,7 +25,7 @@ export const ContentLayout = ({
     <Head title={title} description={description} />
 
     <Container
-      className={cn('w-full p-6!', className)}
+      className={cn('w-full py-6', className)}
       size={size}
       {...props}
     >

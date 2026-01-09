@@ -8,5 +8,18 @@ export const paths = {
 
   app: {
     root: createPath('/'),
+
+    latest: {
+      path: 'latest',
+      getHref: () => '/latest',
+    },
+    trending: {
+      path: 'trending',
+      getHref: () => '/trending',
+    },
+    top: {
+      path: 'top',
+      getHref: () => '/top',
+    },
   },
 } as const;

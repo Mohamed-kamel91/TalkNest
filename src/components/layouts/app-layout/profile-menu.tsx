@@ -47,7 +47,7 @@ const ProfileMenuHeader = ({
       <UserAvatar
         firstName={firstName}
         lastName={lastName}
-        imageUrl={avatarUrl}
+        avatarUrl={avatarUrl}
       />
       <div
         className={cn(
@@ -96,14 +96,14 @@ export const ProfileMenu = () => {
     <DropdownMenu>
       <Tooltip>
         <DropdownMenuTrigger
-          className={cn('bg-muted rounded-full p-1')}
+          className={cn('bg-muted rounded-full')}
           asChild
         >
           <TooltipTrigger>
             <UserAvatar
               firstName={firstName}
               lastName={lastName}
-              imageUrl={avatarUrl}
+              avatarUrl={avatarUrl}
             />
           </TooltipTrigger>
         </DropdownMenuTrigger>

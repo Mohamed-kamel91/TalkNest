@@ -52,7 +52,7 @@ export function AppHeader() {
       className={cn('sticky top-0 z-50', 'bg-background border-b')}
     >
       <Stack
-        className={cn('h-(--header-height) w-full px-6')}
+        className={cn('h-(--header-height) w-full px-5 sm:px-6')}
         align="center"
         gap={2}
       >

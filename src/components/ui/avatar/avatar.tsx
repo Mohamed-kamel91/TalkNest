@@ -10,7 +10,7 @@ const Avatar = ({
     <AvatarPrimitive.Root
       data-slot="avatar"
       className={cn(
-        'relative flex size-8 shrink-0',
+        'relative flex size-10 shrink-0',
         'bg-muted overflow-hidden rounded-full',
         className,
       )}

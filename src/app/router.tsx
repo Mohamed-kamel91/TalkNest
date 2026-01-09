@@ -1,16 +1,17 @@
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
-import { ErrorFallback } from '@/components/errors';
+import { RootErrorFallback } from '@/components/errors';
 import { AppLayout } from '@/components/layouts';
 import { paths } from '@/config/paths';
+import { PostsFeed } from '@/features/posts/components/posts-feed';
 
 import { RestrictedRoute } from './routes/guards';
 
 const router = createBrowserRouter([
   {
     Component: RestrictedRoute,
-    ErrorBoundary: ErrorFallback,
+    ErrorBoundary: RootErrorFallback,
     children: [
       {
         path: paths.auth.login.path,
@@ -33,18 +34,29 @@ const router = createBrowserRouter([
     Component: AppLayout,
     children: [
       {
-        index: true,
+        path: '/',
         lazy: () =>
-          import('./routes/app/posts').then(({ Posts }) => ({
-            Component: Posts,
+          import('./routes/app/home').then(({ Home }) => ({
+            Component: Home,
           })),
-      },
-      {
-        path: 'posts',
-        lazy: () =>
-          import('./routes/app/posts').then(({ Posts }) => ({
-            Component: Posts,
-          })),
+        children: [
+          {
+            index: true,
+            Component: () => <PostsFeed sort="latest" />,
+          },
+          {
+            path: paths.app.latest.path,
+            Component: () => <PostsFeed sort="latest" />,
+          },
+          {
+            path: paths.app.top.path,
+            Component: () => <PostsFeed sort="top" />,
+          },
+          {
+            path: paths.app.trending.path,
+            Component: () => <PostsFeed sort="trending" />,
+          },
+        ],
       },
       {
         path: 'popular',

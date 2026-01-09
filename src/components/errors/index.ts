@@ -1,1 +1,1 @@
-export { ErrorFallback } from './error-fallback';
+export { RootErrorFallback } from './root-error-fallback';
