@@ -18,6 +18,7 @@ export type Meta = {
   page: number;
   total: number;
   totalPages: number;
+  hasNext: boolean;
 };
 
 export type User = Entity<{
@@ -26,4 +27,15 @@ export type User = Entity<{
   email: string;
   role: 'ADMIN' | 'USER';
   bio: string;
+  slug: string;
+  avatarUrl: string;
+}>;
+
+export type Post = Entity<{
+  author: User | null;
+  title: string;
+  content: string;
+  slug: string;
+  publicId: string;
+  updatedAt: number;
 }>;

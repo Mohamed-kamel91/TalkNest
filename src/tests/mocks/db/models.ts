@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 
 export type Model = keyof typeof models;
 
-const userModel = {
+const user = {
   id: primaryKey(nanoid),
   firstName: String,
   lastName: String,
@@ -11,9 +11,23 @@ const userModel = {
   password: String,
   role: String,
   bio: String,
+  avatarUrl: String,
+  slug: String,
+  createdAt: Date.now,
+};
+
+const post = {
+  id: primaryKey(nanoid),
+  authorId: String,
+  title: String,
+  content: String,
+  slug: String,
+  publicId: String,
+  updatedAt: Date.now,
   createdAt: Date.now,
 };
 
 export const models = {
-  user: userModel,
+  user,
+  post,
 };

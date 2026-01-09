@@ -10,7 +10,6 @@ import {
 type LinkButtonProps = ButtonVariantsProps &
   LinkProps & {
     icon?: React.JSX.Element;
-    isActive?: boolean;
   };
 
 export const LinkButton = ({
@@ -18,9 +17,9 @@ export const LinkButton = ({
   iconOnly,
   variant,
   size,
+  radius,
   icon,
   className,
-  isActive = false,
   children,
   ...props
 }: LinkButtonProps) => {
@@ -31,10 +30,10 @@ export const LinkButton = ({
         buttonVariants({
           variant,
           size,
+          radius,
           iconOnly,
           className,
         }),
-        isActive && '',
       )}
       {...props}
     >

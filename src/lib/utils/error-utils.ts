@@ -4,7 +4,7 @@ import type { ApiErrorResponse } from '@/types/api';
 
 export const getErrorMessage = (
   error: unknown,
-  fallbackMessage: string = 'Something went wrong.',
+  fallbackMessage: string = 'Oops, Something went wrong!',
 ): string => {
   // Handle Axios errors
   if (isAxiosError<ApiErrorResponse>(error)) {

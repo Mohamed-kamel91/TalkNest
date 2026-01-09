@@ -28,18 +28,32 @@ const LoginButton = () => {
   );
 };
 
+const RegisterButton = () => {
+  const location = useLocation();
+
+  return (
+    <LinkButton
+      variant="outline"
+      to={paths.auth.register.getHref(
+        `${location.pathname}${location.search}`,
+      )}
+    >
+      Create account
+    </LinkButton>
+  );
+};
+
 export function AppHeader() {
   const user = useUser();
   const { isMobile } = useSidebar();
 
   return (
     <header
-      className={cn('sticky top-0 z-50', 'border-b bg-background')}
+      className={cn('sticky top-0 z-50', 'bg-background border-b')}
     >
       <Stack
-        className={cn('h-(--header-height) w-full px-6')}
+        className={cn('h-(--header-height) w-full px-5 sm:px-6')}
         align="center"
-        justify="between"
         gap={2}
       >
         {/* Left */}
@@ -50,41 +64,51 @@ export function AppHeader() {
         </Stack>
 
         {/* Center */}
-        <div className="w-sm">{!isMobile && <SearchForm />}</div>
+        <Stack justify="center" className="grow">
+          <div className="w-full max-w-sm">
+            {!isMobile && <SearchForm />}
+          </div>
+        </Stack>
 
         {/* Right */}
         <Stack align="center">
-          <Stack align="center" justify="end">
-            {isMobile ? (
-              <Button
-                iconOnly
-                variant="ghost"
-                tooltip="Search"
-                icon={<SearchIcon />}
-                aria-label="Search"
-              />
-            ) : (
-              user.data && (
-                <Button
-                  iconOnly
-                  variant="ghost"
-                  tooltip="Create post"
-                  icon={<SquarePenIcon />}
-                  aria-label="Create post"
-                />
-              )
-            )}
-
+          {isMobile ? (
             <Button
               iconOnly
               variant="ghost"
-              tooltip="Notifications"
-              icon={<BellIcon />}
-              aria-label="Notifications"
+              tooltip="Search"
+              icon={<SearchIcon />}
+              aria-label="Search"
             />
-          </Stack>
+          ) : (
+            user.data && (
+              <Button
+                iconOnly
+                variant="ghost"
+                tooltip="Create post"
+                icon={<SquarePenIcon />}
+                aria-label="Create post"
+              />
+            )
+          )}
 
-          {user?.data ? <ProfileMenu /> : <LoginButton />}
+          {user.data ? (
+            <>
+              <Button
+                iconOnly
+                variant="ghost"
+                tooltip="Notifications"
+                icon={<BellIcon />}
+                aria-label="Notifications"
+              />
+              <ProfileMenu />
+            </>
+          ) : (
+            <Stack>
+              <LoginButton />
+              <RegisterButton />
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </header>

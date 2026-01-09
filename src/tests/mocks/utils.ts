@@ -1,8 +1,10 @@
 import Cookies from 'js-cookie';
 import { delay } from 'msw';
+import { customAlphabet } from 'nanoid';
 
 import { db } from './db/db';
 
+import type { Model } from './db';
 import type { User } from '@/types/api';
 
 type TokenPayload = Pick<User, 'id' | 'email' | 'role'>;
@@ -181,3 +183,28 @@ export function requireAdmin(user: any) {
     throw Error('Unauthorized');
   }
 }
+
+export const slugExists = (slug: string, model: Model): boolean => {
+  return !!db[model].findFirst({
+    where: {
+      slug: {
+        equals: slug,
+      },
+    },
+  });
+};
+
+export const slugify = (text: string): string => {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special chars
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/--+/g, '-') // Replace multiple hyphens with single
+    .replace(/^-+|-+$/g, ''); // Remove leading/trailing dashes
+};
+
+export const generateSlugId = customAlphabet(
+  'abcdefghijklmnopqrstuvwxyz0123456789',
+  6,
+);
