@@ -1,4 +1,5 @@
 import { createAuthPath, createPath } from '@/lib/utils/path';
+import { slugify } from '@/lib/utils/slug';
 
 export const paths = {
   auth: {
@@ -6,20 +7,26 @@ export const paths = {
     login: createAuthPath('/login'),
   },
 
-  app: {
-    root: createPath('/'),
+  home: {
+    feed: {
+      ...createPath('/'),
+      latest: {
+        path: 'latest',
+        getHref: () => '/latest',
+      },
+      trending: {
+        path: 'trending',
+        getHref: () => '/trending',
+      },
+      top: {
+        path: 'top',
+        getHref: () => '/top',
+      },
+    },
+  },
 
-    latest: {
-      path: 'latest',
-      getHref: () => '/latest',
-    },
-    trending: {
-      path: 'trending',
-      getHref: () => '/trending',
-    },
-    top: {
-      path: 'top',
-      getHref: () => '/top',
-    },
+  topic: {
+    path: '/t/:topic',
+    getHref: (topic: string) => `/t/${slugify(topic)}`,
   },
 } as const;
