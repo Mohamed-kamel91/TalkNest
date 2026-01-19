@@ -7,7 +7,8 @@ export const RestrictedRoute = () => {
   const user = useUser();
   const location = useLocation();
 
-  const redirectTo = location.state?.from || paths.app.root.getHref();
+  const redirectTo =
+    location.state?.from || paths.home.feed.getHref();
 
   if (user.data) {
     return <Navigate to={redirectTo} replace />;
