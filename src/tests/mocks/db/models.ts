@@ -23,6 +23,10 @@ const post = {
   content: String,
   slug: String,
   publicId: String,
+  topic: {
+    name: String,
+    slug: String,
+  },
   updatedAt: Date.now,
   createdAt: Date.now,
 };
