@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         Component: ProtectedRoute,
         children: [
           {
-            path: '/new-post',
+            path: paths.post.new.path,
             lazy: () =>
               import('./routes/app/new-post').then(({ NewPost }) => ({
                 Component: NewPost,
