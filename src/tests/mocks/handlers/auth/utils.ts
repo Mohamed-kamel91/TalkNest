@@ -1,6 +1,7 @@
 import { getFullName } from '@/lib/utils/name-utils';
+import { generateSlugId } from '@/lib/utils/slug';
 
-import { generateSlugId, slugExists } from '../../utils';
+import { slugExists } from '../../utils';
 
 export const generateUserBaseSlug = (
   firstName: string,
