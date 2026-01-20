@@ -14,7 +14,7 @@ export const useLoginForm = () => {
   const navigate = useNavigate();
 
   const redirectTo =
-    searchParams.get('redirectTo') || paths.app.root.getHref();
+    searchParams.get('redirectTo') || paths.home.feed.getHref();
 
   const form = useZodForm(loginFormSchema, {
     defaultValues: defaultLoginValues,

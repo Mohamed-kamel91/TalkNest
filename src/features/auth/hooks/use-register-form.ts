@@ -14,7 +14,7 @@ export const UseRegisterForm = () => {
   const [searchParams] = useSearchParams();
 
   const redirectTo =
-    searchParams.get('redirectTo') || paths.app.root.getHref();
+    searchParams.get('redirectTo') || paths.home.feed.getHref();
 
   const form = useZodForm(registerFormSchema, {
     defaultValues: defaultRegisterValues,
