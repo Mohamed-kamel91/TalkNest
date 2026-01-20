@@ -1,11 +1,12 @@
 import Cookies from 'js-cookie';
 import { delay } from 'msw';
-import { customAlphabet } from 'nanoid';
+
+import { TOPICS } from '@/features/posts/constants';
 
 import { db } from './db/db';
 
 import type { Model } from './db';
-import type { User } from '@/types/api';
+import type { TopicName, User } from '@/types/api';
 
 type TokenPayload = Pick<User, 'id' | 'email' | 'role'>;
 
@@ -127,9 +128,11 @@ export function requireAuth(cookies: Record<string, string>) {
 
     if (!token) {
       return {
-        message: 'Authentication required. Please login.',
-        code: 'NO_TOKEN',
-        statusCode: 401,
+        error: {
+          message: 'Authentication required. Please login.',
+          code: 'NO_TOKEN',
+          statusCode: 401,
+        },
       };
     }
 
@@ -159,9 +162,11 @@ export function requireAuth(cookies: Record<string, string>) {
 
     if (!user) {
       return {
-        message: "This user doesn't exist. Please login again.",
-        code: 'USER_NOT_FOUND',
-        statusCode: 404,
+        error: {
+          message: "This user doesn't exist. Please login again.",
+          code: 'USER_NOT_FOUND',
+          statusCode: 404,
+        },
       };
     }
 
@@ -194,17 +199,8 @@ export const slugExists = (slug: string, model: Model): boolean => {
   });
 };
 
-export const slugify = (text: string): string => {
-  return text
-    .trim()
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special chars
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/--+/g, '-') // Replace multiple hyphens with single
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing dashes
+export const getRandomTopic = (): TopicName => {
+  // Use TOPICS to avoid the empty string '' at the start of TOPIC_VALUES
+  const index = Math.floor(Math.random() * TOPICS.length);
+  return TOPICS[index].value;
 };
-
-export const generateSlugId = customAlphabet(
-  'abcdefghijklmnopqrstuvwxyz0123456789',
-  6,
-);
