@@ -29,4 +29,11 @@ export const paths = {
     path: '/t/:topic',
     getHref: (topic: string) => `/t/${slugify(topic)}`,
   },
+
+  post: {
+    new: {
+      path: '/new-post',
+      getHref: () => '/new-post',
+    },
+  },
 } as const;
