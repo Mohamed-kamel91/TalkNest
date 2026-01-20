@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
 import { createAvatar } from '@/lib/utils/avatar-url';
+import { generateSlugId, slugify } from '@/lib/utils/slug';
 
 import { generateUserBaseSlug } from './mocks/handlers/auth/utils';
 import { generateUniquePostSlug } from './mocks/handlers/posts/utils';
-import { generateSlugId } from './mocks/utils';
+import { getRandomTopic } from './mocks/utils';
 
 import type { User } from '@/types/api';
 
@@ -45,13 +46,18 @@ export const createUser = <
 const generatePost = () => {
   const title = faker.lorem.sentence({ min: 3, max: 16 });
   const { slug, slugId } = generateUniquePostSlug(title);
+  const topicName = getRandomTopic();
 
   return {
     id: faker.string.uuid(),
     title,
+    content: faker.lorem.paragraph({ min: 3, max: 4 }),
     slug,
     publicId: slugId,
-    content: faker.lorem.paragraph({ min: 3, max: 4 }),
+    topic: {
+      name: topicName,
+      slug: slugify(topicName),
+    },
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
