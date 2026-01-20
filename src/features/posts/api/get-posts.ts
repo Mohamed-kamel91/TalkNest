@@ -5,6 +5,8 @@ import {
 
 import { api } from '@/lib/api/api-client';
 
+import { postKeys } from './post-keys';
+
 import type { SortBy } from '../types';
 import type { QueryConfig } from '@/lib/api/query-client';
 import type { Meta, Post } from '@/types/api';
@@ -25,7 +27,7 @@ export const getInfinitePostsQueryOptions = ({
   sort = 'latest',
 }: Omit<PostsParam, 'page'>) => {
   return infiniteQueryOptions({
-    queryKey: ['posts', { sort }],
+    queryKey: postKeys.list({ sort }),
     queryFn: ({ pageParam }) => getPosts({ sort, page: pageParam }),
     getNextPageParam: (lastPage) => {
       if (!lastPage.meta.hasNext) return undefined;

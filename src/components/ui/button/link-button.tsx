@@ -6,10 +6,14 @@ import {
   buttonVariants,
   type ButtonVariantsProps,
 } from './button-variants';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../tooltip';
+
+import type { ButtonProps } from './button';
 
 type LinkButtonProps = ButtonVariantsProps &
   LinkProps & {
     icon?: React.JSX.Element;
+    tooltip?: ButtonProps['tooltip'];
   };
 
 export const LinkButton = ({
@@ -18,12 +22,13 @@ export const LinkButton = ({
   variant,
   size,
   radius,
+  tooltip,
   icon,
   className,
   children,
   ...props
 }: LinkButtonProps) => {
-  return (
+  const link = (
     <Link
       to={to}
       className={cn(
@@ -40,5 +45,22 @@ export const LinkButton = ({
       {icon && icon}
       {children}
     </Link>
+  );
+
+  if (!tooltip) {
+    return link;
+  }
+
+  if (typeof tooltip === 'string') {
+    tooltip = {
+      children: tooltip,
+    };
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{link}</TooltipTrigger>
+      <TooltipContent side="bottom" align="center" {...tooltip} />
+    </Tooltip>
   );
 };

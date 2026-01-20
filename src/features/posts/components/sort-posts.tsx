@@ -3,16 +3,16 @@ import { Stack } from '@/components/ui/stack';
 import { cn } from '@/lib/utils/cn';
 
 import { SORT_OPTIONS } from '../constants';
-import { usePostSort } from '../hooks/use-post-sort';
 
-type PostSortTabsProps = React.ComponentProps<'div'>;
+type PostSortTabsProps = React.ComponentProps<'div'> & {
+  activeSort: string;
+};
 
 export const SortPosts = ({
+  activeSort,
   className,
   ...props
 }: PostSortTabsProps) => {
-  const activeSort = usePostSort();
-
   return (
     <Stack align="center" className={cn(className)} {...props}>
       {SORT_OPTIONS.map((sort) => {

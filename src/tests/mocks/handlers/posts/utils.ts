@@ -1,4 +1,4 @@
-import { generateSlugId, slugify } from '../../utils';
+import { generateSlugId, slugify } from '@/lib/utils/slug';
 
 export const generateUniquePostSlug = (
   title: string,

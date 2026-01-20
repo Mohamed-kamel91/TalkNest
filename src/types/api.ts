@@ -1,3 +1,5 @@
+import type { TOPIC_VALUES } from '@/features/posts/constants';
+
 // types/api.ts
 export interface ApiErrorResponse {
   message: string;
@@ -31,11 +33,17 @@ export type User = Entity<{
   avatarUrl: string;
 }>;
 
+export type TopicName = Exclude<(typeof TOPIC_VALUES)[number], ''>;
+
 export type Post = Entity<{
   author: User | null;
   title: string;
   content: string;
   slug: string;
   publicId: string;
+  topic: {
+    name: TopicName;
+    slug: string;
+  };
   updatedAt: number;
 }>;

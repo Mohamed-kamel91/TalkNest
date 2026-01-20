@@ -82,7 +82,8 @@ export function AppHeader() {
             />
           ) : (
             user.data && (
-              <Button
+              <LinkButton
+                to={paths.post.new.getHref()}
                 iconOnly
                 variant="ghost"
                 tooltip="Create post"

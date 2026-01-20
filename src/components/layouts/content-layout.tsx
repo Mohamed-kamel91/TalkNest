@@ -29,7 +29,11 @@ export const ContentLayout = ({
       size={size}
       {...props}
     >
-      {title && <h1 className="mb-4 text-xl font-bold">{title}</h1>}
+      {title && (
+        <h1 className="mb-8 text-2xl font-bold sm:text-4xl">
+          {title}
+        </h1>
+      )}
       {children}
     </Container>
   </>

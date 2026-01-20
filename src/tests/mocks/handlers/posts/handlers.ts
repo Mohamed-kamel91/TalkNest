@@ -1,8 +1,13 @@
 import { http, HttpResponse } from 'msw';
 
+import { slugify } from '@/lib/utils/slug';
+
 import { postsPaths } from './constants';
-import { db } from '../../db';
-import { networkDelay, sanitizeUser } from '../../utils';
+import { generateUniquePostSlug } from './utils';
+import { db, persistDb } from '../../db';
+import { networkDelay, requireAuth, sanitizeUser } from '../../utils';
+
+import type { PostRequestDTO } from './types';
 
 type PostFindManyOptions = Parameters<typeof db.post.findMany>[0];
 type PostOrderBy = PostFindManyOptions['orderBy'];
@@ -74,4 +79,49 @@ const getPosts = http.get(postsPaths.posts, async ({ request }) => {
   }
 });
 
-export const postHandlers = [getPosts];
+const createPost = http.post(
+  postsPaths.posts,
+  async ({ request, cookies }) => {
+    await networkDelay();
+
+    try {
+      const { user, error } = requireAuth(cookies);
+
+      if (error) {
+        return HttpResponse.json(
+          { message: error.message },
+          { status: error.statusCode },
+        );
+      }
+
+      const postPayload = (await request.json()) as PostRequestDTO;
+
+      const { slug, slugId } = generateUniquePostSlug(
+        postPayload.title,
+      );
+
+      const result = db.post.create({
+        authorId: user?.id,
+        title: postPayload.title,
+        content: postPayload.content,
+        slug,
+        publicId: slugId,
+        topic: {
+          name: postPayload.topic,
+          slug: slugify(postPayload.topic),
+        },
+      });
+
+      await persistDb('post');
+
+      return HttpResponse.json({ data: result }, { status: 201 });
+    } catch (error: any) {
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: error?.statusCode || 500 },
+      );
+    }
+  },
+);
+
+export const postHandlers = [getPosts, createPost];

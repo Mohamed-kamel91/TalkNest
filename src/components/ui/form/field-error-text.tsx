@@ -1,27 +1,31 @@
+import { CircleAlertIcon } from 'lucide-react';
+
 import { cn } from '@/lib/utils/cn';
 
-type FieldErrorTextProps = React.ComponentProps<'div'> & {
+import { Stack } from '../stack';
+
+type FieldErrorTextProps = React.ComponentProps<typeof Stack> & {
   errorText?: string | undefined;
+  withErrorIcon?: boolean;
 };
 
 export const FieldErrorText = ({
   className,
   errorText,
+  withErrorIcon = true,
   ...props
 }: FieldErrorTextProps) => {
   if (!errorText) return null;
 
   return (
-    <div
-      className={cn(
-        'flex items-center gap-2',
-        'text-xs text-destructive',
-        className,
-      )}
+    <Stack
+      align="center"
+      className={cn('text-destructive gap-1.5 text-xs', className)}
       role="alert"
       {...props}
     >
+      {withErrorIcon && <CircleAlertIcon size={15} />}
       {errorText}
-    </div>
+    </Stack>
   );
 };

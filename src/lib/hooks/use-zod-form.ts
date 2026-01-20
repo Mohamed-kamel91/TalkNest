@@ -7,10 +7,9 @@ import {
 } from 'react-hook-form';
 import { z, type ZodType } from 'zod';
 
-type UseZodFormOptions<TSchema extends ZodType<any, any, any>> = Omit<
-  UseFormProps<z.infer<TSchema>>,
-  'resolver'
-> & {
+export type UseZodFormOptions<
+  TSchema extends ZodType<any, any, any>,
+> = Omit<UseFormProps<z.infer<TSchema>>, 'resolver'> & {
   initialFocus?: FieldPath<z.infer<TSchema>>;
 };
 

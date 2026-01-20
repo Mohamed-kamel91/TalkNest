@@ -7,15 +7,16 @@ import {
 import { Link } from 'react-router';
 
 import { UserAvatar } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Stack } from '@/components/ui/stack';
+import { paths } from '@/config/paths';
 import { cn } from '@/lib/utils/cn';
 import {
   formatDateTime,
   formatPostPreviewDate,
 } from '@/lib/utils/date-format';
 import { getFullName } from '@/lib/utils/name-utils';
+import { getTopic } from '@/lib/utils/topic-utils';
 
 import type { Post } from '@/types/api';
 
@@ -30,11 +31,14 @@ export const PostPreview = ({
 }: PostPreviewProps) => {
   if (!post.author) return null;
 
+  const topic = getTopic(post.topic.name);
+
   return (
     <article
       className={cn(
         'relative max-w-2xl p-5',
-        'hover:bg-accent cursor-pointer transition-colors sm:rounded-3xl',
+        'hover:bg-accent cursor-pointer sm:rounded-3xl',
+        'transition-colors',
         className,
       )}
       {...props}
@@ -46,7 +50,7 @@ export const PostPreview = ({
         <span className="opacity-0">{post.title}</span>
       </Link>
 
-      {/* header */}
+      {/* Avatar, name, topic and  time */}
       <Stack justify="between" align="center">
         <Stack align="center">
           <UserAvatar
@@ -65,13 +69,25 @@ export const PostPreview = ({
                 post.author.lastName,
               )}
             </p>
-            <time
-              className="text-muted-foreground whitespace-nowrap text-xs"
-              dateTime={new Date(post.createdAt).toISOString()}
-              title={formatDateTime(post.createdAt)}
+            <Stack
+              align="center"
+              className="text-muted-foreground gap-1 text-xs"
             >
-              {formatPostPreviewDate(post.createdAt)}
-            </time>
+              <Link
+                to={paths.topic.getHref(post.topic.name)}
+                className="whitespace-nowrap hover:underline"
+              >
+                {topic.label}
+              </Link>
+              <span>•</span>
+              <time
+                className="whitespace-nowrap"
+                dateTime={new Date(post.createdAt).toISOString()}
+                title={formatDateTime(post.createdAt)}
+              >
+                {formatPostPreviewDate(post.createdAt)}
+              </time>
+            </Stack>
           </Stack>
         </Stack>
 
@@ -89,11 +105,13 @@ export const PostPreview = ({
 
       {/* title and body */}
       <div className="mt-5">
-        <Badge className="relative font-normal" asChild>
-          <Link to="/topic/internet">Internet</Link>
-        </Badge>
-        <div className="relative mt-1 md:mt-0.5">
-          <h2 className="text-xl font-bold transition-colors hover:opacity-85 md:text-2xl">
+        <div className="relative">
+          <h2
+            className={cn(
+              'text-xl font-bold md:text-2xl',
+              'transition-colors hover:opacity-85',
+            )}
+          >
             <Link
               to={`/${post.author.slug}/${post.slug}`}
               className="block"
@@ -106,7 +124,7 @@ export const PostPreview = ({
       </div>
 
       {/* like, comments, share, bookmark */}
-      <div className="mt-5 flex items-center gap-2">
+      <Stack align="center" className="mt-5">
         <Button
           variant="elevated"
           size="sm"
@@ -131,7 +149,7 @@ export const PostPreview = ({
         >
           Share
         </Button>
-      </div>
+      </Stack>
     </article>
   );
 };

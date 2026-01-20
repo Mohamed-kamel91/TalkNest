@@ -2,11 +2,10 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
 import { RootErrorFallback } from '@/components/errors';
-import { AppLayout } from '@/components/layouts';
+import { AppLayout, ContentLayout } from '@/components/layouts';
 import { paths } from '@/config/paths';
-import { PostsFeed } from '@/features/posts/components/posts-feed';
 
-import { RestrictedRoute } from './routes/guards';
+import { ProtectedRoute, RestrictedRoute } from './routes/guards';
 
 const router = createBrowserRouter([
   {
@@ -30,41 +29,74 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: paths.app.root.path,
     Component: AppLayout,
     children: [
+      // Home Feed
       {
-        path: '/',
+        path: paths.home.feed.path,
         lazy: () =>
           import('./routes/app/home').then(({ Home }) => ({
             Component: Home,
           })),
+      },
+      {
+        path: paths.home.feed.latest.path,
+        lazy: () =>
+          import('./routes/app/home').then(({ Home }) => ({
+            Component: Home,
+          })),
+      },
+      {
+        path: paths.home.feed.top.path,
+        lazy: () =>
+          import('./routes/app/home').then(({ Home }) => ({
+            Component: Home,
+          })),
+      },
+      {
+        path: paths.home.feed.trending.path,
+        lazy: () =>
+          import('./routes/app/home').then(({ Home }) => ({
+            Component: Home,
+          })),
+      },
+
+      // New Post
+      {
+        Component: ProtectedRoute,
         children: [
           {
-            index: true,
-            Component: () => <PostsFeed sort="latest" />,
-          },
-          {
-            path: paths.app.latest.path,
-            Component: () => <PostsFeed sort="latest" />,
-          },
-          {
-            path: paths.app.top.path,
-            Component: () => <PostsFeed sort="top" />,
-          },
-          {
-            path: paths.app.trending.path,
-            Component: () => <PostsFeed sort="trending" />,
+            path: paths.post.new.path,
+            lazy: () =>
+              import('./routes/app/new-post').then(({ NewPost }) => ({
+                Component: NewPost,
+              })),
           },
         ],
       },
+
+      // Popular Feed
       {
         path: 'popular',
-        Component: () => <h1>Popular</h1>,
+        Component: () => {
+          return (
+            <ContentLayout title="Popular">
+              <h1>This Popular page</h1>
+            </ContentLayout>
+          );
+        },
       },
+
+      // Explore Topics
       {
-        path: 'explore',
-        Component: () => <h1>Explore</h1>,
+        path: '/explore',
+        Component: () => {
+          return (
+            <ContentLayout title="Explore">
+              <h1>This Explore page</h1>
+            </ContentLayout>
+          );
+        },
       },
     ],
   },
